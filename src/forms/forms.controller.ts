@@ -13,7 +13,7 @@ export class FormsController {
   }
 
   @Get()
-  findAll(@Query() query: { name?: string; state?: number }) {
+  async findAll(@Query() query: { name?: string; state?: number }) {
     return this.formsService.findAll(query);
   }
 

@@ -19,9 +19,10 @@ export class FormsService {
     });
   }
 
-  findAll(query: { name?: string; state?: number }) {
+  async findAll(query: { name?: string; state?: number }) {
     const findOptions: FindOptions = {
       include: [FormField],
+      raw: true, // Sequelize will return plain objects
     };
     const where: WhereOptions = {};
 
