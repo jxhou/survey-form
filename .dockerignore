@@ -1,0 +1,28 @@
+# Git version control
+.git
+.gitignore
+
+# Node.js dependencies - these are installed inside the container
+node_modules
+
+# Build artifacts and test coverage - these are generated inside the container
+dist
+coverage
+
+# Docker files
+Dockerfile
+Dockerfile.dev
+docker-compose.yml
+.dockerignore
+
+# IDE and editor configuration
+.vscode
+
+# Environment variables - should be passed in at runtime, not built into the image
+.env
+*.env
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

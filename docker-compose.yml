@@ -1,6 +1,31 @@
 version: '3.8'
 
 services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    entrypoint: ["/usr/src/app/docker-entrypoint.sh"]
+    command: npm run start:debug:container
+    container_name: survey-form-app-dev
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules # Keep node_modules from the container
+    ports:
+      - "3000:3000" # App port
+      - "9229:9229" # Debug port
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      # Add environment variables needed for the app to connect to the DB
+      - DATABASE_HOST=postgres
+      - DATABASE_PORT=5432
+      - DATABASE_USER=devuser
+      - DATABASE_PASSWORD=devpass
+      - DATABASE_DB=devdb
+      - REDIS_HOST=redis
+
   postgres:
     image: postgres:15
     container_name: local-postgres
@@ -28,6 +53,15 @@ services:
     volumes:
       - pgadmin_data:/var/lib/pgadmin
 
+  redis:
+    image: redis:alpine
+    container_name: local-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
 volumes:
   pgdata:
   pgadmin_data:
+  redisdata:

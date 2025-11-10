@@ -5,26 +5,17 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Attach",
-      "port": 9229,
-      "request": "attach",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
-      "type": "node"
-    },
-
-    {
       "type": "node",
-      "request": "launch",
-      "name": "Launch Program",
+      "request": "attach",
+      "name": "Attach to NestJS (Docker)",
+      "port": 9229,
+      "address": "localhost",
+      "localRoot": "${workspaceFolder}",
+      "remoteRoot": "/usr/src/app",
+      "protocol": "inspector",
+      "restart": true,
       "skipFiles": [
         "<node_internals>/**"
-      ],
-      "program": "${file}",
-      "preLaunchTask": "tsc: build - tsconfig.json",
-      "outFiles": [
-        "${workspaceFolder}/dist/**/*.js"
       ]
     }
   ]

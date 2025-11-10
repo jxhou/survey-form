@@ -1,0 +1,34 @@
+#!/bin/sh
+
+# Launch the application and any extra required processes locally.
+
+# This command ensures that the script will exit immediately if any command fails.
+set -e
+
+# This changes the current directory to the project's root directory
+# (the parent directory of where the script is located).
+cd "$(dirname "$0")/.."
+
+# This executes another script named 'update' to ensure all project
+# dependencies are installed and up-to-date before starting.
+# This likely runs 'npm install'.
+script/update
+
+# This checks if the NODE_ENV environment variable is not set.
+# If it's not set, it defaults to "development".
+test -z "$NODE_ENV" &&
+  NODE_ENV="development"
+
+# This block checks if the NODE_INSPECT environment variable has a value.
+# If it does, it means the developer wants to run the server in debug mode.
+echo "==> Starting the server..."
+if [ -n "$NODE_INSPECT" ]
+then
+  # It prints a message and runs the 'npm run debug' command,
+  # which is configured in package.json to start Node.js with the --inspect flag.
+  echo "==> in debug mode!..."
+  npm run start:debug
+else
+  # If NODE_INSPECT is not set, it starts the server normally using 'npm start'.
+  npm start
+fi

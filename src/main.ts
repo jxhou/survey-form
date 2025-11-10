@@ -13,7 +13,8 @@ async function bootstrap() {
 
   // Initialize Redis client and store
   const redisClient = createClient({
-    url: process.env.REDIS_URL || 'redis://localhost:6379',
+    // url: process.env.REDIS_URL || 'redis://localhost:6379',
+    url: `redis://${process.env.REDIS_HOST || 'localhost'}:6379`
   });
   await redisClient.connect();
 

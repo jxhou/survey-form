@@ -1,0 +1,23 @@
+# Use a specific Node.js version for consistency in development.
+FROM node:20-alpine
+
+# Set the working directory inside the container.
+WORKDIR /usr/src/app
+
+# Copy package.json and package-lock.json to leverage Docker's layer caching.
+# This step will only be re-run if these files change.
+COPY package*.json ./
+
+# Install all dependencies, including devDependencies needed for development.
+RUN npm install
+
+# Copy the rest of the application source code.
+# This is useful for building the image, but in development,
+# we will use a volume to mount the local source code.
+COPY . .
+
+# Expose the default NestJS port and the debug port.
+EXPOSE 3000 9229
+
+# Command to run the app in development (watch) mode.
+CMD ["npm", "run", "start:dev"]
