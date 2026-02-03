@@ -31,10 +31,13 @@ COPY package*.json ./
 RUN npm ci --only=production
 
 # Copy the built application from the 'build' stage
-COPY --from=build /usr/src/app/dist ./dist
+COPY --from=build --chown=node:node /usr/src/app/dist ./dist
 
 # Expose the port the app runs on (default for NestJS is 3000)
 EXPOSE 3000
 
+# Run as non-root user
+USER node
+
 # Command to run the application
-CMD ["node", "dist/main"]
+CMD ["node", "dist/src/main"]
